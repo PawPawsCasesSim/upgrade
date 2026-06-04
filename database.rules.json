@@ -1,0 +1,22 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".write": "auth.uid === $uid || auth.token.admin === true",
+        "balance": { ".write": "auth.token.admin === true" },
+        "inventory": { ".write": "auth.token.admin === true" },
+        "stats": { ".write": "auth.token.admin === true" }
+      }
+    },
+    "upgrades": {
+      ".read": true,
+      ".write": false
+    },
+    "admin_logs": {
+      ".read": "auth.token.admin === true",
+      ".write": "auth.token.admin === true"
+    }
+  }
+}
