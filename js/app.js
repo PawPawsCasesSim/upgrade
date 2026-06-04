@@ -1,17 +1,24 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getFunctions } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js";
 
-// ⚠️ Замените на данные вашего Firebase-проекта
+import { renderAuth } from './auth.js';
+import { renderInventory, renderCatalog } from './inventory.js';
+import { renderUpgrade } from './upgrade.js';
+import { renderHistory } from './history.js';
+import { renderProfile } from './profile.js';
+import { renderAdmin } from './admin.js';
+
+// ⚠️ ЗАМЕНИТЕ на данные своего Firebase-проекта
 const firebaseConfig = {
-    apiKey: "AIzaSyA43oRwIsxvuli5Rvzdu24HkGS5T6Py1gU",
-    authDomain: "upgrade-b63cc.firebaseapp.com",
-    databaseURL: "https://upgrade-b63cc-default-rtdb.firebaseio.com",
-    projectId: "upgrade-b63cc",
-    storageBucket: "upgrade-b63cc.firebasestorage.app",
-    messagingSenderId: "128834836161",
-    appId: "1:128834836161:web:acad25af194c073b842640"
+  apiKey: "AIzaSyA43oRwIsxvuli5Rvzdu24HkGS5T6Py1gU",
+  authDomain: "upgrade-b63cc.firebaseapp.com",
+  databaseURL: "https://upgrade-b63cc-default-rtdb.firebaseio.com",
+  projectId: "upgrade-b63cc",
+  storageBucket: "upgrade-b63cc.firebasestorage.app",
+  messagingSenderId: "128834836161",
+  appId: "1:128834836161:web:acad25af194c073b842640"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -49,13 +56,8 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         document.getElementById('main-nav').style.display = 'flex';
         document.getElementById('logout-btn').onclick = () => signOut(auth);
-        // Проверка, админ ли пользователь
         user.getIdTokenResult().then(token => {
-            if (token.claims.admin) {
-                document.getElementById('admin-link').style.display = 'inline';
-            } else {
-                document.getElementById('admin-link').style.display = 'none';
-            }
+            document.getElementById('admin-link').style.display = token.claims.admin ? 'inline' : 'none';
         });
     } else {
         document.getElementById('main-nav').style.display = 'none';
@@ -64,7 +66,7 @@ onAuthStateChanged(auth, (user) => {
     router();
 });
 
-// Toast уведомления
+// Toast-уведомления
 window.showToast = (msg, error = false) => {
     const toast = document.createElement('div');
     toast.className = `toast ${error ? 'error' : ''}`;
