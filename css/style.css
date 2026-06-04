@@ -1,0 +1,116 @@
+:root {
+    --bg: #0f0f0f;
+    --card-bg: #1a1a1a;
+    --primary: #e74c3c;
+    --accent: #2ecc71;
+    --text: #ddd;
+    --muted: #888;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+nav {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #111;
+    border-bottom: 1px solid #333;
+    flex-wrap: wrap;
+    align-items: center;
+}
+nav a, nav button {
+    color: var(--text);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+nav a:hover, nav button:hover { background: #222; }
+.active-link { background: var(--primary); color: #fff; }
+#app {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-3px); }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+img.item-img { width: 100%; height: auto; border-radius: 6px; }
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+button:hover { opacity: 0.9; }
+button.secondary { background: #333; }
+input, select {
+    background: #222;
+    border: 1px solid #444;
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: 6px;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+.toast {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: #2ecc71;
+    color: black;
+    padding: 1rem;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease;
+    z-index: 999;
+}
+.toast.error { background: #e74c3c; }
+@keyframes slideIn { from { transform: translateX(100%); } }
+.roulette-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 2rem auto;
+}
+.roulette-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--accent) 0deg, var(--accent) calc(var(--chance) * 360deg),
+        var(--primary) calc(var(--chance) * 360deg), var(--primary) 360deg
+    );
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 40%;
+    background: white;
+    transform-origin: bottom center;
+    transform: translate(-50%, -100%) rotate(0deg);
+    transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
